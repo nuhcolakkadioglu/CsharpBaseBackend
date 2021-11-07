@@ -1,4 +1,6 @@
-﻿using NuhCompnay.Northwind.Business.Abstract;
+﻿using NuhCompnay.Core.CrosCuttingConcerns.Validation.FluentValidation;
+using NuhCompnay.Northwind.Business.Abstract;
+using NuhCompnay.Northwind.Business.ValidationRules;
 using NuhCompnay.Northwind.DataAccess.Abstract;
 using NuhCompnay.Northwind.Entities.Concrete;
 using System;
@@ -17,7 +19,7 @@ namespace NuhCompnay.Northwind.Business.Concrete.Managers
         {
             _productDal = productDal;
         }
-
+        [FluentValidate(typeof(ProductValidator))]
         public Product Add(Product product)
         {
             return _productDal.Add(product);
@@ -31,6 +33,13 @@ namespace NuhCompnay.Northwind.Business.Concrete.Managers
         public Product GetById(int id)
         {
             return _productDal.Get(m => m.ProductId==id) ;
+        }
+
+        [FluentValidate(typeof(ProductValidator))]
+        public Product Update(Product product)
+        {
+
+            return _productDal.Update(product);
         }
     }
 }
